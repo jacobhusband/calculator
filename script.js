@@ -8,6 +8,8 @@ const multiplyButton = document.getElementById("multiply");
 const calculations = document.getElementById("calculations");
 const calculationVisuals = document.getElementById("calculation-visuals");
 const periodButton = document.getElementById("period");
+const buttons = [plusButton, minusButton, divideButton, multiplyButton];
+const operators = [" + ", " - ", " ÷ ", " x "];
 
 for (let i = 0; i < 10; i++) {
   const numberButton = document.getElementById(`${i}`);
@@ -42,25 +44,37 @@ deleteButton.addEventListener("click", (e) => {
   }
 });
 
-plusButton.addEventListener("click", (e) => {
-  calculationVisuals.innerHTML = calculations.innerHTML + " + ";
-  calculations.innerHTML = "0";
-});
+for (let i = 0; i < 4; i++) {
+  buttons[i].addEventListener("click", (e) => {
+    const arr = calculationVisuals.innerHTML.split(" ");
+    console.log(arr);
+    if (arr.length == 3) {
+      generateSolution();
+    }
+    calculationVisuals.innerHTML = calculations.innerHTML + operators[i];
+    calculations.innerHTML = "0";
+  });
+}
 
-minusButton.addEventListener("click", (e) => {
-  calculationVisuals.innerHTML = calculations.innerHTML + " - ";
-  calculations.innerHTML = "0";
-});
+// plusButton.addEventListener("click", (e) => {
+//   calculationVisuals.innerHTML = calculations.innerHTML + " + ";
+//   calculations.innerHTML = "0";
+// });
 
-multiplyButton.addEventListener("click", (e) => {
-  calculationVisuals.innerHTML = calculations.innerHTML + " x ";
-  calculations.innerHTML = "0";
-});
+// minusButton.addEventListener("click", (e) => {
+//   calculationVisuals.innerHTML = calculations.innerHTML + " - ";
+//   calculations.innerHTML = "0";
+// });
 
-divideButton.addEventListener("click", (e) => {
-  calculationVisuals.innerHTML = calculations.innerHTML + " ÷ ";
-  calculations.innerHTML = "0";
-});
+// multiplyButton.addEventListener("click", (e) => {
+//   calculationVisuals.innerHTML = calculations.innerHTML + " x ";
+//   calculations.innerHTML = "0";
+// });
+
+// divideButton.addEventListener("click", (e) => {
+//   calculationVisuals.innerHTML = calculations.innerHTML + " ÷ ";
+//   calculations.innerHTML = "0";
+// });
 
 periodButton.addEventListener("click", (e) => {
   if (!calculations.innerHTML.includes(".")) {
@@ -69,11 +83,15 @@ periodButton.addEventListener("click", (e) => {
 });
 
 equalsButton.addEventListener("click", (e) => {
+  generateSolution();
+});
+
+function generateSolution() {
   const arr = calculationVisuals.innerHTML.split(" ");
   let ans = operator(arr[0], calculations.innerHTML, arr[1]);
-  calculations.innerHTML = ans;
+  calculations.innerHTML = ans.toFixed(2);
   calculationVisuals.innerHTML = "";
-});
+}
 
 function operator(a, b, operator) {
   if (a === "") {
