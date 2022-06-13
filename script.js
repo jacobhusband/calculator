@@ -47,7 +47,6 @@ deleteButton.addEventListener("click", (e) => {
 for (let i = 0; i < 4; i++) {
   buttons[i].addEventListener("click", (e) => {
     const arr = calculationVisuals.innerHTML.split(" ");
-    console.log(arr);
     if (arr.length == 3) {
       generateSolution();
     }
@@ -55,26 +54,6 @@ for (let i = 0; i < 4; i++) {
     calculations.innerHTML = "0";
   });
 }
-
-// plusButton.addEventListener("click", (e) => {
-//   calculationVisuals.innerHTML = calculations.innerHTML + " + ";
-//   calculations.innerHTML = "0";
-// });
-
-// minusButton.addEventListener("click", (e) => {
-//   calculationVisuals.innerHTML = calculations.innerHTML + " - ";
-//   calculations.innerHTML = "0";
-// });
-
-// multiplyButton.addEventListener("click", (e) => {
-//   calculationVisuals.innerHTML = calculations.innerHTML + " x ";
-//   calculations.innerHTML = "0";
-// });
-
-// divideButton.addEventListener("click", (e) => {
-//   calculationVisuals.innerHTML = calculations.innerHTML + " ÷ ";
-//   calculations.innerHTML = "0";
-// });
 
 periodButton.addEventListener("click", (e) => {
   if (!calculations.innerHTML.includes(".")) {
@@ -89,8 +68,17 @@ equalsButton.addEventListener("click", (e) => {
 function generateSolution() {
   const arr = calculationVisuals.innerHTML.split(" ");
   let ans = operator(arr[0], calculations.innerHTML, arr[1]);
-  calculations.innerHTML = ans.toFixed(2);
+  ans = modifyAnswer(ans);
+  calculations.innerHTML = ans;
   calculationVisuals.innerHTML = "";
+}
+
+function modifyAnswer(ans) {
+  const stringAnswer = ans.toString();
+  if (stringAnswer.includes(".")) {
+    ans = Math.round((ans + Number.EPSILON) * 100) / 100;
+  }
+  return ans;
 }
 
 function operator(a, b, operator) {
